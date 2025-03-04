@@ -1,6 +1,6 @@
 import React from "react";
 
-function Logo({ size = 40, color = "#007FFF", textColor = "#333" }) {
+function Logo({ size = 35, color = "#007FFF", textColor = "#333" }) {
   return (
     <div className="flex items-center space-x-2">
       {/* Logo Icon */}
@@ -12,7 +12,7 @@ function Logo({ size = 40, color = "#007FFF", textColor = "#333" }) {
       </svg>
 
       {/* Logo Text */}
-      <span style={{ fontSize: size * 0.7, fontWeight: "bold", color: textColor }}>Nexa CRM</span>
+      <span style={{ fontSize: size * 0.7, fontWeight: "bold", color: textColor }}>NEXA CRM</span>
     </div>
   );
 }

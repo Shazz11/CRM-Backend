@@ -12,6 +12,22 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Logo from '../components/Logo';
+import { getAuth, signOut } from "firebase/auth";
+
+
+const handleLogout = () => {
+  // Firebase Auth se logout
+  const auth = getAuth();
+  
+  signOut(auth)
+    .then(() => {
+      console.log("User logged out successfully");
+      navigate("/login"); // Logout hone ke baad login page pe bhej do
+    })
+    .catch((error) => {
+      console.error("Logout Error:", error);
+    });
+};
 
 // Sidebar navigation items
 const NAVIGATION = [
@@ -25,7 +41,8 @@ const NAVIGATION = [
   { kind: 'divider' },
   { kind: 'header', title: 'Personal' },
   { segment: 'settings', title: 'Settings', icon: <SettingsIcon /> },
-  { segment: 'logout', title: 'Logout', icon: <LogoutIcon /> },
+  { segment: "logout", title: "Logout", icon: <LogoutIcon />, onClick: handleLogout },
+  // { segment: 'logout', title: 'Logout', icon: <LogoutIcon /> },
 ];
 
 // Theme configuration
