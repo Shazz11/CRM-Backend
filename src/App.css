@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.MuiBreadcrumbs-li{
+    display: none;
+}
+
+/* .css-lc31tn{
+    
+} */
+
+.appPro li{
+    display: none;
+}
