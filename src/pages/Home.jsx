@@ -25,7 +25,7 @@ const handleLogout = () => {
       navigate("/login"); // Logout hone ke baad login page pe bhej do
     })
     .catch((error) => {
-      console.error("Logout Error:", error);
+      console.error("Logout Error:", error);  
     });
 };
 
@@ -41,8 +41,7 @@ const NAVIGATION = [
   { kind: 'divider' },
   { kind: 'header', title: 'Personal' },
   { segment: 'settings', title: 'Settings', icon: <SettingsIcon /> },
-  { segment: "logout", title: "Logout", icon: <LogoutIcon />, onClick: handleLogout },
-  // { segment: 'logout', title: 'Logout', icon: <LogoutIcon /> },
+  { segment: 'logout', title: 'Logout', icon: <LogoutIcon /> },
 ];
 
 // Theme configuration

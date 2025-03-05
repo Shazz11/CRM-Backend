@@ -13,6 +13,7 @@ import InvoiceDetails from "./pages/InvoiceDetails";
 import Settings from "./pages/Settings";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +41,7 @@ function App() {
             <Route path="invoices" element={<Invoices />} />
             <Route path="invoice" element={<InvoiceDetails />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="logout" element={<Logout />} />
           </Route>
         ) : (
           <Route path="*" element={<Navigate to="/login" />} />

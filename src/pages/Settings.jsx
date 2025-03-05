@@ -3,10 +3,12 @@ import { TextField, Button, Card, CardContent, Typography, IconButton, InputAdor
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
+import { getAuth, updateProfile, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 
 const API_URL = "http://localhost:3000/api/settings";
 
 function Settings() {
+  const auth = getAuth();
   const [user, setUser] = useState({ name: "", email: "" });
   const [passwords, setPasswords] = useState({ oldPassword: "", newPassword: "" });
   const [showPassword, setShowPassword] = useState({ old: false, new: false });
@@ -35,31 +37,43 @@ function Settings() {
   };
 
   // Update user profile
-  const handleUpdateUser = () => {
+  const handleUpdateUser = async () => {
     if (!user.name || !user.email) {
       setMessage({ type: "error", text: "Name and email are required" });
       return;
     }
     setLoading(true);
-    axios.put(`${API_URL}/updateUser`, user)
-      .then(() => setMessage({ type: "success", text: "Profile updated successfully" }))
-      .catch(() => setMessage({ type: "error", text: "Failed to update profile" }))
-      .finally(() => setLoading(false));
-      setUser({ oldPassword: "", newPassword: "" })
+    try {
+      await updateProfile(auth.currentUser, { displayName: user.name });
+      await updateEmail(auth.currentUser, user.email);
+      await axios.put(`${API_URL}/updateUser`, user);
+      setMessage({ type: "success", text: "Profile updated successfully" });
+    } catch (error) {
+      setMessage({ type: "error", text: "Failed to update profile: " + error.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Change Password with validation
-  const handleChangePassword = () => {
+  // Change Password with Firebase Authentication
+  const handleChangePassword = async () => {
     if (!passwords.oldPassword || !passwords.newPassword) {
       setMessage({ type: "error", text: "Both passwords are required" });
       return;
     }
     setLoading(true);
-    axios.post(`${API_URL}/changePassword`, passwords)
-      .then(() => setMessage({ type: "success", text: "Password changed successfully" }))
-      .catch(() => setMessage({ type: "error", text: "Incorrect old password or error updating password" }))
-      .finally(() => setLoading(false));
-      setPasswords({ old: '', new: '' })
+    const userAuth = auth.currentUser;
+    const credential = EmailAuthProvider.credential(userAuth.email, passwords.oldPassword);
+    try {
+      await reauthenticateWithCredential(userAuth, credential);
+      await updatePassword(userAuth, passwords.newPassword);
+      setMessage({ type: "success", text: "Password changed successfully" });
+      setPasswords({ oldPassword: "", newPassword: "" });
+    } catch (error) {
+      setMessage({ type: "error", text: "Error changing password: " + error.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

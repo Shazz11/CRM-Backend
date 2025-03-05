@@ -22,7 +22,6 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, form.email, form.password);
-      alert("Login Successful!");
     } catch (error) {
       setError(error.message);
     }
@@ -45,7 +44,7 @@ const Login = () => {
           Login to Your Account
         </Typography>
 
-        {error && <Typography color="error">{error}</Typography>}
+        {error && <Typography color="error">Incorrect Email or Password </Typography>}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
           <TextField label="Email" name="email" type="email" onChange={handleChange} fullWidth required />
