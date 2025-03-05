@@ -61,10 +61,10 @@ const Login = () => {
           Login with Google
         </Button>
 
-        <Typography variant="body2" className="text-center" sx={{ mt: 2 }}>
+        {/* <Typography variant="body2" className="text-center" sx={{ mt: 2 }}>
           Don't have an account?{" "}
           <NavLink to='/signup' className="text-blue-600 hover:underline">Signup</NavLink>
-        </Typography>
+        </Typography> */}
       </Paper>
     </Container>
   );
